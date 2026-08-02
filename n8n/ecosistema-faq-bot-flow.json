@@ -1,0 +1,297 @@
+{
+  "name": "ContestaYa — Chatwoot (moldeable, referencia desactualizada — ver README)",
+  "nodes": [
+    {
+      "parameters": { "httpMethod": "POST", "path": "faqbot-chatwoot", "options": {} },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [800, 800],
+      "id": "wh-001",
+      "name": "Webhook Chatwoot",
+      "webhookId": "faqbot-chatwoot-001"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 2 },
+          "conditions": [
+            {
+              "id": "cond-evt-001",
+              "leftValue": "={{ $json.body.event }}",
+              "rightValue": "message_created",
+              "operator": { "type": "string", "operation": "equals" }
+            },
+            {
+              "id": "cond-in-001",
+              "leftValue": "={{ $json.body.message_type }}",
+              "rightValue": "incoming",
+              "operator": { "type": "string", "operation": "equals" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [1040, 800],
+      "id": "if-001",
+      "name": "IF Mensaje Entrante de Contacto"
+    },
+    {
+      "parameters": { "options": {} },
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [1280, 960],
+      "id": "noop-001",
+      "name": "Ignorar (saliente/agente/bot)"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Normaliza el payload del webhook de Chatwoot a un formato plano\nconst body = $json.body;\nconst conv = body.conversation || {};\nconst sender = body.sender || {};\n\nreturn [{ json: {\n  conversationId: conv.id || body.id,\n  inboxId: String(conv.inbox_id || body.inbox?.id || ''),\n  accountId: String(body.account?.id || conv.account_id || ''),\n  contactPhone: (sender.phone_number || sender.identifier || '').replace(/^\\+/, ''),\n  contactName: sender.name || 'Contacto',\n  mensaje: body.content || '',\n  chatwootBaseUrl: $env.CHATWOOT_BASE_URL || 'https://TU-DOMINIO-CHATWOOT.easypanel.host'\n} }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1280, 720],
+      "id": "code-001",
+      "name": "Normalizar Evento Chatwoot"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT id, slug, nombre, giro, tono, system_prompt FROM negocios WHERE chatwoot_inbox_id = $1 AND activo = true LIMIT 1",
+        "options": { "queryReplacement": "={{ [ $json.inboxId ] }}" }
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [1520, 720],
+      "id": "pg-negocio-001",
+      "name": "Obtener Negocio (por inbox)",
+      "credentials": { "postgres": { "id": "REPLACE_ME", "name": "Postgres FAQ Bot" } }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT bot_bloqueado FROM solicitudes WHERE negocio_id = $1 AND telefono = $2 LIMIT 1",
+        "options": {
+          "queryReplacement": "={{ [ $('Obtener Negocio (por inbox)').first().json.id, $('Normalizar Evento Chatwoot').first().json.contactPhone ] }}"
+        }
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [1760, 720],
+      "id": "pg-check-bloqueo-001",
+      "name": "Consultar Bloqueo Bot",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput",
+      "credentials": { "postgres": { "id": "REPLACE_ME", "name": "Postgres FAQ Bot" } }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 2 },
+          "conditions": [
+            {
+              "id": "cond-bloq-001",
+              "leftValue": "={{ $json.bot_bloqueado }}",
+              "rightValue": true,
+              "operator": { "type": "boolean", "operation": "true" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [2000, 720],
+      "id": "if-bloqueo-001",
+      "name": "IF Bot Bloqueado (humano atendiendo)?"
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $('Normalizar Evento Chatwoot').first().json.conversationId }}",
+        "messageData": "={{ JSON.stringify({ message: $('Normalizar Evento Chatwoot').first().json.mensaje, date_time: $now.toISO() }) }}",
+        "tail": true
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [2240, 640],
+      "id": "redis-push-001",
+      "name": "Redis Push",
+      "credentials": { "redis": { "id": "REPLACE_ME", "name": "Redis FAQ Bot" } }
+    },
+    {
+      "parameters": { "amount": 7 },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [2480, 640],
+      "id": "wait-001",
+      "name": "Wait Buffer (7s)"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "Mensajes",
+        "key": "={{ $('Normalizar Evento Chatwoot').first().json.conversationId }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [2720, 640],
+      "id": "redis-get-001",
+      "name": "Redis Get"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Normalizar Evento Chatwoot').first().json.conversationId }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [2960, 640],
+      "id": "redis-del-001",
+      "name": "Redis Delete",
+      "credentials": { "redis": { "id": "REPLACE_ME", "name": "Redis FAQ Bot" } }
+    },
+    {
+      "parameters": {
+        "jsCode": "const lista = $json.Mensajes;\nconst arr = Array.isArray(lista) ? lista : (lista ? [lista] : []);\nconst combinado = arr\n  .filter((m) => m && m.trim().startsWith('{'))\n  .map((m) => { try { return JSON.parse(m).message; } catch { return m; } })\n  .filter(Boolean)\n  .join('\\n');\n\nreturn [{ json: { mensajeCombinado: combinado || $('Normalizar Evento Chatwoot').first().json.mensaje } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3200, 640],
+      "id": "code-combinar-001",
+      "name": "Combinar Mensajes del Buffer"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT categoria, pregunta, respuesta FROM faq WHERE negocio_id = $1 AND activo = true ORDER BY orden ASC",
+        "options": { "queryReplacement": "={{ [ $('Obtener Negocio (por inbox)').first().json.id ] }}" }
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [3440, 640],
+      "id": "pg-faq-001",
+      "name": "Obtener FAQ del Negocio",
+      "credentials": { "postgres": { "id": "REPLACE_ME", "name": "Postgres FAQ Bot" } }
+    },
+    {
+      "parameters": {
+        "jsCode": "const faqs = $input.all().map((i) => i.json);\nconst texto = faqs.map((f) => `- ${f.pregunta}\\n  ${f.respuesta}`).join('\\n\\n');\nreturn [{ json: { faqTexto: texto || 'Sin FAQ registrada todavia.' } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3680, 640],
+      "id": "code-faqtexto-001",
+      "name": "Formatear FAQ"
+    },
+    {
+      "parameters": {
+        "model": { "__rl": true, "value": "gpt-4o-mini", "mode": "list", "cachedResultName": "gpt-4o-mini" },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [3920, 880],
+      "id": "openai-model-001",
+      "name": "OpenAI (modelo agente)",
+      "credentials": { "openAiApi": { "id": "REPLACE_ME", "name": "OpenAI account" } }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Nombre del contacto: {{ $('Normalizar Evento Chatwoot').first().json.contactName }}\nMensaje del cliente: {{ $('Combinar Mensajes del Buffer').first().json.mensajeCombinado }}",
+        "options": {
+          "systemMessage": "={{ $('Obtener Negocio (por inbox)').first().json.system_prompt }}\n\nPREGUNTAS FRECUENTES (única fuente de verdad, no inventes datos fuera de aquí):\n{{ $('Formatear FAQ').first().json.faqTexto }}\n\nSi la duda del cliente no está cubierta arriba, o pide algo que requiere un humano (pedido grande, queja, negociación), responde brevemente que un encargado le va a escribir y agrega al final el marcador exacto [ESCALAR]."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [3920, 640],
+      "id": "agent-001",
+      "name": "Agente Respuesta (moldeable por negocio)"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $json.output || $json.text || '';\nconst escalar = raw.includes('[ESCALAR]');\nconst respuestaLimpia = raw.replace('[ESCALAR]', '').trim();\nreturn [{ json: { respuesta: respuestaLimpia, escalar } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [4160, 640],
+      "id": "code-parse-001",
+      "name": "Detectar Escalacion"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO solicitudes (negocio_id, telefono, nombre_contacto, canal, chatwoot_conversation_id, ultimo_mensaje, historial, estado, prioridad)\nVALUES ($1, $2, $3, 'whatsapp', $4, $5, jsonb_build_array(jsonb_build_object('de','cliente','texto',$5::text,'fecha',NOW()), jsonb_build_object('de','bot','texto',$6::text,'fecha',NOW())), $7, $8)\nON CONFLICT (negocio_id, telefono) DO UPDATE SET\n  ultimo_mensaje = EXCLUDED.ultimo_mensaje,\n  chatwoot_conversation_id = EXCLUDED.chatwoot_conversation_id,\n  historial = solicitudes.historial || jsonb_build_array(jsonb_build_object('de','cliente','texto',$5::text,'fecha',NOW()), jsonb_build_object('de','bot','texto',$6::text,'fecha',NOW())),\n  estado = EXCLUDED.estado,\n  prioridad = CASE WHEN EXCLUDED.prioridad = 'ALTA' THEN 'ALTA' ELSE solicitudes.prioridad END,\n  bot_bloqueado = CASE WHEN $7 = 'Escalado' THEN true ELSE solicitudes.bot_bloqueado END",
+        "options": {
+          "queryReplacement": "={{ [ $('Obtener Negocio (por inbox)').first().json.id, $('Normalizar Evento Chatwoot').first().json.contactPhone, $('Normalizar Evento Chatwoot').first().json.contactName, String($('Normalizar Evento Chatwoot').first().json.conversationId), $('Combinar Mensajes del Buffer').first().json.mensajeCombinado, $('Detectar Escalacion').first().json.respuesta, $('Detectar Escalacion').first().json.escalar ? 'Escalado' : 'Atendido', $('Detectar Escalacion').first().json.escalar ? 'ALTA' : 'BAJA' ] }}"
+        }
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [4400, 640],
+      "id": "pg-registrar-001",
+      "name": "Registrar Solicitud + Historial",
+      "credentials": { "postgres": { "id": "REPLACE_ME", "name": "Postgres FAQ Bot" } }
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Normalizar Evento Chatwoot').first().json.chatwootBaseUrl }}/api/v1/accounts/{{ $('Normalizar Evento Chatwoot').first().json.accountId }}/conversations/{{ $('Normalizar Evento Chatwoot').first().json.conversationId }}/messages",
+        "method": "POST",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [{ "name": "api_access_token", "value": "={{ $env.CHATWOOT_API_TOKEN }}" }]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "content", "value": "={{ $('Detectar Escalacion').first().json.respuesta }}" },
+            { "name": "message_type", "value": "outgoing" }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [4640, 640],
+      "id": "http-chatwoot-001",
+      "name": "Responder en Chatwoot (registro válido)"
+    }
+  ],
+  "connections": {
+    "Webhook Chatwoot": { "main": [[{ "node": "IF Mensaje Entrante de Contacto", "type": "main", "index": 0 }]] },
+    "IF Mensaje Entrante de Contacto": {
+      "main": [
+        [{ "node": "Normalizar Evento Chatwoot", "type": "main", "index": 0 }],
+        [{ "node": "Ignorar (saliente/agente/bot)", "type": "main", "index": 0 }]
+      ]
+    },
+    "Normalizar Evento Chatwoot": { "main": [[{ "node": "Obtener Negocio (por inbox)", "type": "main", "index": 0 }]] },
+    "Obtener Negocio (por inbox)": { "main": [[{ "node": "Consultar Bloqueo Bot", "type": "main", "index": 0 }]] },
+    "Consultar Bloqueo Bot": { "main": [[{ "node": "IF Bot Bloqueado (humano atendiendo)?", "type": "main", "index": 0 }]] },
+    "IF Bot Bloqueado (humano atendiendo)?": {
+      "main": [
+        [{ "node": "Ignorar (saliente/agente/bot)", "type": "main", "index": 0 }],
+        [{ "node": "Redis Push", "type": "main", "index": 0 }]
+      ]
+    },
+    "Redis Push": { "main": [[{ "node": "Wait Buffer (7s)", "type": "main", "index": 0 }]] },
+    "Wait Buffer (7s)": { "main": [[{ "node": "Redis Get", "type": "main", "index": 0 }]] },
+    "Redis Get": { "main": [[{ "node": "Redis Delete", "type": "main", "index": 0 }]] },
+    "Redis Delete": { "main": [[{ "node": "Combinar Mensajes del Buffer", "type": "main", "index": 0 }]] },
+    "Combinar Mensajes del Buffer": { "main": [[{ "node": "Obtener FAQ del Negocio", "type": "main", "index": 0 }]] },
+    "Obtener FAQ del Negocio": { "main": [[{ "node": "Formatear FAQ", "type": "main", "index": 0 }]] },
+    "Formatear FAQ": { "main": [[{ "node": "Agente Respuesta (moldeable por negocio)", "type": "main", "index": 0 }]] },
+    "OpenAI (modelo agente)": {
+      "ai_languageModel": [[{ "node": "Agente Respuesta (moldeable por negocio)", "type": "ai_languageModel", "index": 0 }]]
+    },
+    "Agente Respuesta (moldeable por negocio)": { "main": [[{ "node": "Detectar Escalacion", "type": "main", "index": 0 }]] },
+    "Detectar Escalacion": { "main": [[{ "node": "Registrar Solicitud + Historial", "type": "main", "index": 0 }]] },
+    "Registrar Solicitud + Historial": { "main": [[{ "node": "Responder en Chatwoot (registro válido)", "type": "main", "index": 0 }]] }
+  }
+}

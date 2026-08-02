@@ -1,0 +1,498 @@
+/* Plantilla Flora — restaurante elegante/minimalista, estilo escandinavo-editorial.
+   Referencia aprobada: salvia + crema, ilustracion de hoja en linea fina, tipografia
+   serif (Playfair Display) para titulos + sans ligera (Jost) para nav/labels,
+   mucho aire, sin bordes gruesos ni sombras duras (opuesto al estilo de Resto-bar). */
+
+:root {
+  --fl-sage: #93a582;
+  --fl-sage-dark: #6f8560;
+  --fl-cream: #f4f1e6;
+  --fl-white: #fffdf8;
+  --fl-ink: #2c2a22;
+  --fl-muted: #6b6858;
+  --fl-line: #ddd8c4;
+}
+
+.fl-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Jost', 'Segoe UI', system-ui, sans-serif;
+  background: var(--fl-cream);
+  color: var(--fl-ink);
+}
+
+.fl-page h1, .fl-page h2, .fl-page h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600;
+  color: var(--fl-ink);
+}
+
+/* --- Nav --- */
+.fl-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 1.75rem;
+  border-bottom: 1px solid var(--fl-line);
+  background: var(--fl-cream);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  flex-wrap: wrap;
+}
+
+.fl-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.4rem;
+  color: var(--fl-ink);
+}
+
+.fl-brand-logo {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+
+.fl-leaf-icon { display: block; }
+
+.fl-nav-links {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.9rem;
+  color: var(--fl-ink);
+}
+
+.fl-nav-links a { color: inherit; text-decoration: none; opacity: 0.85; }
+.fl-nav-links a:hover { opacity: 1; text-decoration: underline; }
+
+/* --- Hero --- */
+/* Una sola columna: foto de marca + card overlay con la propuesta comercial
+   (nombre, una linea de posicionamiento, y los 2 CTAs) — sin ficha de ingredientes,
+   ese detalle se queda en /menu/:slug para no duplicar informacion en la portada. */
+.fl-hero {
+  max-width: 74rem;
+  margin: 0 auto;
+  width: 100%;
+  border-bottom: 1px solid var(--fl-line);
+}
+
+/* Sin display:flex: la imagen tiene su propia altura fija (no depende del padre) y
+   el card va con position:absolute encima en desktop, o static/en flujo normal debajo
+   en movil (media query mas abajo) — asi nunca se rompe por herencia de flex. */
+.fl-hero-media {
+  position: relative;
+  padding: 2rem 1.5rem;
+}
+
+.fl-hero-media::before {
+  content: '';
+  position: absolute;
+  left: 1.5rem;
+  top: 2rem;
+  bottom: 2rem;
+  width: 1.6rem;
+  background: var(--fl-sage);
+  border-radius: 0.4rem 0 0 0.4rem;
+}
+
+.fl-hero-img {
+  display: block;
+  width: 100%;
+  height: 22rem;
+  object-fit: cover;
+  border-radius: 0.4rem;
+  margin-left: 1.6rem;
+}
+
+.fl-hero-card {
+  background: var(--fl-white);
+  border-radius: 0.4rem;
+  padding: 1.75rem 2rem;
+  max-width: 23rem;
+  position: absolute;
+  right: 2.25rem;
+  bottom: 2.25rem;
+  box-shadow: 0 12px 28px rgba(43, 40, 30, 0.12);
+}
+
+.fl-hero-card h1 { font-size: 1.9rem; margin: 0 0 0.6rem; line-height: 1.2; }
+.fl-hero-card p { margin: 0 0 1.25rem; color: var(--fl-muted); font-size: 0.92rem; line-height: 1.55; }
+
+.fl-hero-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--fl-sage-dark);
+  margin-bottom: 0.6rem;
+}
+
+.fl-hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+.fl-cta.fl-cta-outline {
+  background: none;
+  color: var(--fl-sage-dark);
+  border: 1px solid var(--fl-sage);
+}
+
+.fl-cta.fl-cta-outline:hover { background: var(--fl-cream); color: var(--fl-sage-dark); }
+
+/* --- CTA / QR --- */
+.fl-cta {
+  display: inline-block;
+  background: var(--fl-sage);
+  color: #fff;
+  font-weight: 500;
+  padding: 0.7rem 1.5rem;
+  border-radius: 999px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.fl-cta:hover { background: var(--fl-sage-dark); }
+
+.fl-qr-section {
+  padding: 3rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  background: var(--fl-white);
+  text-align: center;
+}
+
+.fl-qr-card {
+  background: var(--fl-cream);
+  border: 1px solid var(--fl-line);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  max-width: 20rem;
+}
+
+.fl-qr-img { width: 100%; max-width: 200px; border-radius: 0.4rem; }
+.fl-qr-caption { font-size: 0.8rem; color: var(--fl-muted); margin-top: 0.75rem; }
+
+.fl-qr-download {
+  display: inline-block;
+  margin-top: 0.75rem;
+  color: var(--fl-sage-dark);
+  font-weight: 500;
+  font-size: 0.85rem;
+  text-decoration: underline;
+}
+
+/* --- 3-card footer nav (La Experiencia / Ver Menú / Ubicación) --- */
+.fl-cards-row {
+  max-width: 74rem;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  padding: 2.5rem 1.5rem;
+}
+
+.fl-mini-card {
+  border: 1px solid var(--fl-line);
+  border-radius: 0.5rem;
+  padding: 1.75rem 1.5rem;
+  text-align: center;
+  background: var(--fl-white);
+}
+
+.fl-mini-card h3 { font-size: 1.05rem; margin: 0 0 0.6rem; }
+.fl-mini-card a { color: var(--fl-sage-dark); font-size: 0.85rem; text-decoration: underline; }
+
+/* --- Secciones de menu (categorias) --- */
+.fl-section { padding: 2.5rem 1.5rem; max-width: 74rem; margin: 0 auto; width: 100%; }
+.fl-section h2 { text-align: center; margin-bottom: 1.75rem; font-size: 1.6rem; }
+
+.fl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.5rem;
+}
+
+.fl-card {
+  background: var(--fl-white);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 1px solid var(--fl-line);
+  transition: box-shadow 0.15s ease;
+}
+
+.fl-card:hover { box-shadow: 0 10px 24px rgba(43, 40, 30, 0.08); }
+
+.fl-card-body { padding: 1.1rem 1.25rem 1.25rem; }
+.fl-card h3 { margin: 0 0 0.35rem; font-size: 1.05rem; }
+.fl-card p { margin: 0; color: var(--fl-muted); line-height: 1.45; font-size: 0.92rem; }
+
+.fl-footer {
+  margin-top: auto;
+  text-align: center;
+  padding: 2.25rem 1rem;
+  background: var(--fl-sage-dark);
+  color: var(--fl-cream);
+}
+
+.fl-powered { opacity: 0.7; font-size: 0.8rem; margin-top: 0.25rem; }
+
+/* --- Menú interactivo (/menu/:slug) --- */
+
+/* .fl-hero-compact anula el display:grid de .fl-hero (pensado para la portada) —
+   el menu interactivo reutiliza ambas clases juntas pero necesita un header simple. */
+.fl-hero-compact {
+  display: block;
+  max-width: none;
+  padding: 2.25rem 1.5rem 1.5rem;
+  text-align: center;
+  border-bottom: 1px solid var(--fl-line);
+}
+
+.fl-hero-compact h1 { font-size: clamp(1.8rem, 5vw, 2.4rem); margin: 0.2rem 0; }
+.fl-hero-compact .fl-hero-badge { display: block; }
+.fl-hero-compact p.fl-sub { max-width: 30rem; margin: 0.5rem auto 0; color: var(--fl-muted); }
+.fl-hero-compact .fl-hint,
+.fl-hero-compact .fl-tagline + .fl-hint { margin-top: 0.75rem; font-size: 0.8rem; color: var(--fl-muted); }
+
+.fl-logo {
+  width: 88px;
+  height: 88px;
+  object-fit: contain;
+  border-radius: 999px;
+  background: var(--fl-white);
+  border: 1px solid var(--fl-line);
+  padding: 0.5rem;
+  margin: 0 auto 1rem;
+  display: block;
+}
+
+.fl-tagline {
+  display: inline-block;
+  color: var(--fl-sage-dark);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  margin: 0 0 0.75rem;
+}
+
+.fl-hint { font-size: 0.8rem; color: var(--fl-muted); margin-top: 1rem; }
+
+.fl-tabs {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 1rem 1.25rem;
+  background: var(--fl-cream);
+  border-bottom: 1px solid var(--fl-line);
+  position: sticky;
+  top: 65px;
+  z-index: 5;
+}
+
+.fl-tab {
+  flex: 0 0 auto;
+  background: none;
+  border: 1px solid var(--fl-line);
+  color: var(--fl-ink);
+  padding: 0.45rem 1.1rem;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: 'Jost', sans-serif;
+}
+
+.fl-tab-activa { background: var(--fl-sage); color: #fff; border-color: var(--fl-sage); }
+
+.fl-card-img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  background: var(--fl-cream);
+}
+
+.fl-card-img-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+}
+
+.fl-card-seleccionada { outline: 2px solid var(--fl-sage); }
+
+.fl-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+  width: 100%;
+}
+
+.fl-card-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.75rem;
+  color: var(--fl-sage-dark);
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: 'Jost', sans-serif;
+}
+
+.fl-select-btn {
+  background: none;
+  border: 1px solid var(--fl-sage);
+  color: var(--fl-sage-dark);
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: 'Jost', sans-serif;
+}
+
+.fl-select-btn-activo { background: var(--fl-sage); color: #fff; }
+
+.fl-orden-bar {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 1rem 1.25rem 1.25rem;
+  background: linear-gradient(180deg, rgba(244,241,230,0) 0%, var(--fl-cream) 35%);
+}
+
+.fl-cta-fixed { width: fit-content; font-family: inherit; cursor: pointer; }
+
+.fl-cta-fixed:disabled {
+  background: var(--fl-line);
+  color: var(--fl-muted);
+  cursor: not-allowed;
+}
+
+.fl-link-domicilio {
+  font-size: 0.8rem;
+  color: var(--fl-muted);
+  text-decoration: underline;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: 'Jost', sans-serif;
+}
+
+.fl-resumen-lista { list-style: none; padding: 0; margin: 0 0 1rem; }
+.fl-resumen-lista li {
+  display: flex;
+  flex-direction: column;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--fl-line);
+}
+.fl-resumen-lista li strong { color: var(--fl-ink); }
+.fl-resumen-lista li span { font-size: 0.85rem; color: var(--fl-muted); }
+.fl-resumen-aviso {
+  font-size: 0.85rem;
+  background: var(--fl-cream);
+  border: 1px solid var(--fl-line);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+}
+
+.fl-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(43, 40, 30, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  z-index: 50;
+}
+
+.fl-modal {
+  background: var(--fl-white);
+  border-radius: 0.6rem;
+  padding: 1.5rem;
+  max-width: 26rem;
+  width: 100%;
+  position: relative;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.fl-modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: var(--fl-cream);
+  color: var(--fl-ink);
+  border: none;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.fl-modal-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.fl-modal h2 { margin: 0 0 0.5rem; }
+.fl-modal p { margin: 0; color: var(--fl-muted); line-height: 1.5; }
+
+.fl-entrega-opciones { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
+
+.fl-entrega-btn {
+  background: var(--fl-cream);
+  border: 1px solid var(--fl-line);
+  color: var(--fl-ink);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: left;
+  font-family: 'Jost', sans-serif;
+}
+
+.fl-entrega-btn:hover { border-color: var(--fl-sage); background: var(--fl-white); }
+.fl-entrega-btn span { display: block; font-size: 0.8rem; color: var(--fl-muted); margin-top: 0.2rem; }
+
+/* --- Responsive --- */
+@media (max-width: 860px) {
+  /* La card pasa a flujo normal debajo de la foto (ya no es flex item de nada, asi
+     que ocupa el 100% de su contenedor por default al ser un div en bloque). */
+  .fl-hero-card { position: static; margin-top: 1rem; max-width: none; }
+  .fl-hero-img { height: 18rem; }
+  .fl-cards-row { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .fl-nav { padding: 0.9rem 1.1rem; }
+  .fl-nav-links { gap: 1rem; font-size: 0.82rem; width: 100%; justify-content: center; order: 3; }
+  .fl-hero-media { padding: 1.25rem 1rem; }
+  .fl-hero-media::before { left: 1rem; top: 1.25rem; bottom: 1.25rem; width: 1rem; }
+  .fl-hero-img { height: 14rem; margin-left: 1rem; }
+  .fl-hero-actions { flex-direction: column; }
+  .fl-section { padding: 2rem 1.1rem; }
+  .fl-cta { width: 100%; text-align: center; }
+  .fl-cta-fixed { width: calc(100% - 2.2rem); }
+  .fl-tabs { top: 0; }
+}

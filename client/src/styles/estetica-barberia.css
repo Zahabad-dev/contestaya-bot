@@ -1,0 +1,250 @@
+/* Plantilla Estetica/Barberia — elegante, femenina, paleta negro + dorado.
+   Tipografia serif (Playfair Display) para encabezados, mucho espacio en
+   blanco, bordes delgados dorados en vez de bordes gruesos tipo sticker
+   (a proposito distinta de Resto-bar, para que cada plantilla se sienta
+   propia). */
+
+:root {
+  --eb-black: #0d0d0d;
+  --eb-black-soft: #1a1712;
+  --eb-gold: #c9a227;
+  --eb-gold-soft: #e4c766;
+  --eb-cream: #f7f3ea;
+}
+
+.eb-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+  background: var(--eb-cream);
+  color: var(--eb-black);
+}
+
+.eb-hero {
+  background: var(--eb-black);
+  color: var(--eb-cream);
+  text-align: center;
+  padding: 3.5rem 1.5rem 3rem;
+}
+
+.eb-logo {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  border-radius: 999px;
+  background: var(--eb-black);
+  border: 2px solid var(--eb-gold);
+  padding: 0.5rem;
+  margin: 0 auto 1.25rem;
+  display: block;
+}
+
+.eb-badge {
+  display: inline-block;
+  border: 1px solid var(--eb-gold);
+  color: var(--eb-gold-soft);
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  margin-bottom: 1.25rem;
+}
+
+.eb-hero h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(2.4rem, 6vw, 3.8rem);
+  margin: 0.2rem 0;
+  color: var(--eb-cream);
+}
+
+.eb-tagline {
+  color: var(--eb-gold);
+  font-weight: 700;
+  letter-spacing: 3px;
+  font-size: clamp(0.7rem, 2vw, 0.9rem);
+  margin: 0 0 1.25rem;
+  text-transform: uppercase;
+}
+
+.eb-sub { max-width: 30rem; margin: 0 auto; opacity: 0.85; }
+.eb-hint { margin-top: 1rem; font-size: 0.8rem; opacity: 0.6; }
+
+.eb-qr-section {
+  padding: 2.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  background: var(--eb-black-soft);
+}
+
+.eb-qr-card {
+  background: var(--eb-cream);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  text-align: center;
+  max-width: 22rem;
+  border: 1px solid var(--eb-gold);
+}
+
+.eb-qr-img { width: 100%; max-width: 200px; border-radius: 0.3rem; }
+.eb-qr-caption { font-size: 0.8rem; color: #574d38; margin-top: 0.9rem; font-style: italic; }
+
+.eb-qr-download {
+  display: inline-block;
+  margin-top: 0.9rem;
+  background: var(--eb-black);
+  color: var(--eb-gold-soft);
+  border: 1px solid var(--eb-gold);
+  padding: 0.5rem 1.2rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.eb-cta {
+  display: inline-block;
+  background: var(--eb-gold);
+  color: var(--eb-black);
+  font-weight: 800;
+  padding: 0.85rem 1.9rem;
+  border-radius: 999px;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+}
+
+.eb-section { padding: 3rem 1.5rem; max-width: 64rem; margin: 0 auto; width: 100%; }
+.eb-section h2 {
+  text-align: center;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600;
+  color: var(--eb-black);
+  margin-bottom: 0.5rem;
+}
+.eb-section h2::after {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 2px;
+  background: var(--eb-gold);
+  margin: 0.75rem auto 1.75rem;
+}
+
+.eb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.1rem;
+}
+
+.eb-card {
+  background: #fff;
+  border-radius: 0.5rem;
+  padding: 1.4rem;
+  border-top: 2px solid var(--eb-gold);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+}
+
+.eb-card h3 { margin: 0 0 0.4rem; color: var(--eb-black); font-family: 'Playfair Display', Georgia, serif; font-weight: 600; }
+.eb-card p { margin: 0; color: #5c5647; line-height: 1.45; font-size: 0.92rem; }
+
+.eb-footer {
+  margin-top: auto;
+  text-align: center;
+  padding: 2rem 1rem;
+  background: var(--eb-black);
+  color: var(--eb-cream);
+}
+
+.eb-powered { opacity: 0.55; font-size: 0.8rem; margin-top: 0.25rem; }
+
+/* --- Agenda interactiva (/agenda/:slug) --- */
+
+.eb-hero-compact { padding: 2rem 1.5rem 1.5rem; }
+
+.eb-field-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--eb-black);
+  margin: 0 auto 0.6rem;
+  max-width: 30rem;
+  text-align: left;
+}
+
+.eb-input {
+  display: block;
+  width: 100%;
+  max-width: 30rem;
+  margin: 0 auto 1.75rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d8cfb8;
+  border-radius: 0.4rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  background: #fff;
+}
+
+.eb-servicio-card {
+  background: #fff;
+  border: 1px solid #e3dac2;
+  border-radius: 0.5rem;
+  padding: 1.1rem;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+  font-family: inherit;
+}
+
+.eb-servicio-card h3 { margin: 0 0 0.3rem; font-family: 'Playfair Display', Georgia, serif; font-size: 1.05rem; }
+.eb-servicio-card p { margin: 0; font-size: 0.85rem; color: #5c5647; }
+
+.eb-servicio-card-activa {
+  border-color: var(--eb-gold);
+  border-width: 2px;
+  background: #fdf8ea;
+}
+
+.eb-agenda-grid {
+  max-width: 34rem;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: 0.6rem;
+}
+
+.eb-slot {
+  background: #fff;
+  border: 1px solid #e3dac2;
+  border-radius: 0.4rem;
+  padding: 0.6rem 0.4rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-align: center;
+  font-family: inherit;
+}
+
+.eb-slot-activo { background: var(--eb-gold); color: var(--eb-black); border-color: var(--eb-gold); font-weight: 700; }
+
+.eb-agenda-bar {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  padding: 1.25rem 1.25rem 1.75rem;
+  background: linear-gradient(180deg, rgba(247,243,234,0) 0%, var(--eb-cream) 35%);
+}
+
+.eb-cta:disabled {
+  background: #e3dac2;
+  color: #a89c7c;
+  cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+  .eb-hero { padding: 2.5rem 1.25rem; }
+  .eb-section { padding: 2.25rem 1.25rem; }
+  .eb-cta { width: 100%; text-align: center; }
+}

@@ -1,0 +1,389 @@
+/* Plantilla Resto-bar — estilo neo-brutalista/sticker, minimalista y juvenil.
+   Referencia aprobada: paleta crema + negro + un solo acento verde lima,
+   bordes gruesos tipo marcador, tipografia comic redonda, sin fotos/gradientes
+   glossy. Un solo color de acento en todo el sistema (nada de dorado/rojo). */
+
+:root {
+  --rb-cream: #f3ecd8;
+  --rb-ink: #17140f;
+  --rb-lime: #d7f24a;
+  --rb-dark: #17140f;   /* alias de --rb-ink, se mantiene el nombre por compatibilidad */
+  --rb-wood: #201d18;   /* fondo oscuro para footer/contraste, ya no "madera" cafe */
+  --rb-red: #d7f24a;    /* alias: la seleccion ahora usa el mismo acento lima */
+  --rb-gold: #d7f24a;   /* alias retro-compatible: todo lo que era dorado ahora es lima */
+}
+
+.rb-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+  background: var(--rb-cream);
+  color: var(--rb-ink);
+}
+
+.rb-hero {
+  background: var(--rb-cream);
+  color: var(--rb-ink);
+  text-align: center;
+  padding: 3rem 1.5rem 2rem;
+  border-bottom: 3px solid var(--rb-ink);
+}
+
+.rb-logo {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  border-radius: 999px;
+  background: var(--rb-cream);
+  border: 3px solid var(--rb-ink);
+  padding: 0.5rem;
+  margin: 0 auto 1rem;
+  display: block;
+}
+
+.rb-badge {
+  display: inline-block;
+  background: var(--rb-lime);
+  border: 2px solid var(--rb-ink);
+  color: var(--rb-ink);
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.rb-hero h1 {
+  font-family: 'Titan One', 'Baloo 2', Georgia, serif;
+  font-size: clamp(2.2rem, 7vw, 3.8rem);
+  margin: 0.2rem 0;
+  color: var(--rb-ink);
+  -webkit-text-stroke: 2px var(--rb-ink);
+  text-shadow:
+    -3px -3px 0 var(--rb-cream), 3px -3px 0 var(--rb-cream),
+    -3px 3px 0 var(--rb-cream), 3px 3px 0 var(--rb-cream),
+    5px 5px 0 var(--rb-ink);
+}
+
+.rb-tagline {
+  color: var(--rb-ink);
+  background: var(--rb-lime);
+  display: inline-block;
+  padding: 0.15rem 0.7rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  font-size: clamp(0.75rem, 2vw, 0.95rem);
+  margin: 0 0 1rem;
+}
+
+.rb-sub { max-width: 32rem; margin: 0 auto; opacity: 0.85; font-weight: 600; }
+.rb-hint { margin-top: 1rem; font-size: 0.8rem; opacity: 0.6; }
+
+.rb-qr-section {
+  padding: 2.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  background: var(--rb-wood);
+}
+
+.rb-qr-card {
+  background: var(--rb-cream);
+  border: 3px solid var(--rb-ink);
+  border-radius: 0.6rem;
+  padding: 1.25rem;
+  text-align: center;
+  max-width: 22rem;
+  box-shadow: 6px 6px 0 var(--rb-lime);
+}
+
+.rb-qr-img { width: 100%; max-width: 220px; border-radius: 0.3rem; }
+.rb-qr-caption { font-size: 0.8rem; color: #4a4438; margin-top: 0.75rem; }
+
+.rb-qr-download {
+  display: inline-block;
+  margin-top: 0.75rem;
+  background: var(--rb-ink);
+  color: var(--rb-lime);
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 0.85rem;
+}
+
+.rb-cta {
+  display: inline-block;
+  background: var(--rb-lime);
+  color: var(--rb-ink);
+  font-weight: 800;
+  padding: 0.85rem 1.8rem;
+  border: 3px solid var(--rb-ink);
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 4px 4px 0 var(--rb-ink);
+}
+
+.rb-cta.rb-cta-outline {
+  background: var(--rb-cream);
+  box-shadow: 4px 4px 0 var(--rb-lime);
+}
+
+.rb-section { padding: 2.5rem 1.5rem; max-width: 68rem; margin: 0 auto; width: 100%; }
+.rb-section h2 {
+  text-align: center;
+  font-family: 'Titan One', 'Baloo 2', Georgia, serif;
+  color: var(--rb-ink);
+  margin-bottom: 1.75rem;
+  font-size: 1.6rem;
+}
+
+.rb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.25rem;
+}
+
+.rb-card {
+  background: var(--rb-cream);
+  border-radius: 0.6rem;
+  padding: 1.25rem;
+  border: 3px solid var(--rb-ink);
+  box-shadow: 5px 5px 0 var(--rb-ink);
+}
+
+.rb-card h3 { margin: 0 0 0.4rem; color: var(--rb-ink); font-weight: 800; }
+.rb-card p { margin: 0; color: #4a4438; line-height: 1.4; }
+
+.rb-footer {
+  margin-top: auto;
+  text-align: center;
+  padding: 2rem 1rem;
+  background: var(--rb-wood);
+  color: var(--rb-cream);
+}
+
+.rb-powered { opacity: 0.6; font-size: 0.8rem; margin-top: 0.25rem; }
+
+/* --- Menú interactivo (/menu/:slug) --- */
+
+.rb-hero-compact { padding: 1.75rem 1.5rem 1.25rem; }
+
+.rb-tabs {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 1rem 1.25rem;
+  background: var(--rb-cream);
+  border-bottom: 3px solid var(--rb-ink);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.rb-tab {
+  flex: 0 0 auto;
+  background: var(--rb-cream);
+  border: 2px solid var(--rb-ink);
+  color: var(--rb-ink);
+  padding: 0.45rem 1.1rem;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.rb-tab-activa { background: var(--rb-lime); box-shadow: 3px 3px 0 var(--rb-ink); }
+
+.rb-card-img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  border: 2px solid var(--rb-ink);
+  margin-bottom: 0.75rem;
+  background: var(--rb-cream);
+}
+
+.rb-card-img-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  background-image: radial-gradient(var(--rb-ink) 1px, transparent 1.5px);
+  background-size: 10px 10px;
+  background-color: var(--rb-cream);
+}
+
+.rb-card-seleccionada {
+  background: var(--rb-lime);
+  box-shadow: 5px 5px 0 var(--rb-ink);
+}
+
+.rb-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  width: 100%;
+}
+
+.rb-card-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.75rem;
+  color: var(--rb-ink);
+  text-decoration: underline;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.rb-select-btn {
+  background: var(--rb-cream);
+  border: 2px solid var(--rb-ink);
+  color: var(--rb-ink);
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.rb-select-btn-activo { background: var(--rb-ink); color: var(--rb-lime); }
+
+.rb-orden-bar {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 1rem 1.25rem 1.25rem;
+  background: linear-gradient(180deg, rgba(243,236,216,0) 0%, var(--rb-cream) 35%);
+}
+
+.rb-cta-fixed {
+  width: fit-content;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.rb-cta-fixed:disabled {
+  background: var(--rb-cream);
+  color: #a39c8a;
+  border-color: #a39c8a;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.rb-link-domicilio {
+  font-size: 0.8rem;
+  color: var(--rb-ink);
+  text-decoration: underline;
+  opacity: 0.75;
+  font-weight: 700;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.rb-resumen-lista { list-style: none; padding: 0; margin: 0 0 1rem; }
+.rb-resumen-lista li {
+  display: flex;
+  flex-direction: column;
+  padding: 0.6rem 0;
+  border-bottom: 2px dashed var(--rb-ink);
+}
+.rb-resumen-lista li strong { color: var(--rb-ink); }
+.rb-resumen-lista li span { font-size: 0.85rem; color: #4a4438; }
+.rb-resumen-aviso {
+  font-size: 0.85rem;
+  background: var(--rb-lime);
+  border: 2px solid var(--rb-ink);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  font-weight: 700;
+}
+
+.rb-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(23, 20, 15, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  z-index: 50;
+}
+
+.rb-modal {
+  background: var(--rb-cream);
+  border: 3px solid var(--rb-ink);
+  border-radius: 0.7rem;
+  padding: 1.5rem;
+  max-width: 26rem;
+  width: 100%;
+  position: relative;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 7px 7px 0 var(--rb-lime);
+}
+
+.rb-modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: var(--rb-ink);
+  color: var(--rb-lime);
+  border: none;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.rb-modal-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  border: 2px solid var(--rb-ink);
+  margin-bottom: 1rem;
+}
+
+.rb-modal h2 { margin: 0 0 0.5rem; color: var(--rb-ink); font-family: 'Titan One', 'Baloo 2', Georgia, serif; }
+.rb-modal p { margin: 0; color: #4a4438; line-height: 1.5; }
+
+/* --- Modal de entrega (pasar por el / a domicilio) --- */
+
+.rb-entrega-opciones { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
+
+.rb-entrega-btn {
+  background: var(--rb-cream);
+  border: 3px solid var(--rb-ink);
+  color: var(--rb-ink);
+  padding: 1rem;
+  border-radius: 0.6rem;
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: 4px 4px 0 var(--rb-ink);
+}
+
+.rb-entrega-btn:hover { background: var(--rb-lime); }
+.rb-entrega-btn span { display: block; font-size: 0.8rem; font-weight: 600; opacity: 0.75; margin-top: 0.2rem; }
+
+@media (max-width: 480px) {
+  .rb-hero { padding: 2.25rem 1.25rem 1.75rem; }
+  .rb-section { padding: 2rem 1.25rem; }
+  .rb-cta { width: 100%; text-align: center; }
+  .rb-cta-fixed { width: calc(100% - 2.5rem); }
+}
