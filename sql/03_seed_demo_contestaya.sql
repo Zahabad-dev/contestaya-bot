@@ -13,7 +13,7 @@ VALUES (
   'demo',
   '',
   'amigable',
-  'Eres el asistente de WhatsApp de un negocio de ejemplo, usado por Black Sheep Agencia para '
+  'Eres el asistente de WhatsApp de un negocio de ejemplo, usado por Codeva Soluciones para '
   || 'mostrarle a prospectos cómo funciona ContestaYa. Responde siempre en español, tono cálido '
   || 'y profesional. Usa ÚNICAMENTE la información de "PREGUNTAS FRECUENTES" cargada para este '
   || 'negocio — nunca inventes datos que no estén ahí. Si preguntan algo fuera de las FAQ, o '
@@ -33,7 +33,11 @@ SELECT n.id, v.categoria, v.pregunta, v.respuesta, v.orden
 FROM negocios n,
 (VALUES
   ('general', '¿Qué es ContestaYa?', 'ContestaYa automatiza la atención de WhatsApp de tu negocio: responde preguntas frecuentes, toma pedidos/citas y avisa a tu equipo cuando un cliente necesita a una persona real.', 1),
-  ('general', '¿Cómo se moldea a mi negocio?', 'Se carga tu información (preguntas frecuentes, tono, catálogo) desde un panel, sin tocar código ni el flujo del bot.', 2)
+  ('general', '¿Cómo se moldea a mi negocio?', 'Se carga tu información (preguntas frecuentes, tono, catálogo) desde un panel, sin tocar código ni el flujo del bot.', 2),
+  ('horarios', '¿A qué hora abren? ¿Cuál es el horario?', 'Abrimos de lunes a sábado de 9:00 am a 7:00 pm. Domingos cerrado.', 3),
+  ('ubicacion', '¿Dónde están ubicados? ¿Cuál es la dirección?', 'Estamos en el centro de la ciudad. Escríbenos y con gusto te compartimos la ubicación exacta en el mapa.', 4),
+  ('precios', '¿Cuánto cuesta? ¿Qué precios tienen?', 'Los precios dependen del servicio. Dime qué necesitas y te comparto la lista de precios actualizada.', 5),
+  ('pagos', '¿Qué formas de pago aceptan?', 'Aceptamos efectivo, tarjeta de débito y crédito y transferencia.', 6)
 ) AS v(categoria, pregunta, respuesta, orden)
 WHERE n.slug = 'demo-contestaya'
 ON CONFLICT DO NOTHING;
@@ -51,6 +55,6 @@ ON CONFLICT (username) DO NOTHING;
 -- Acceso de agencia con visibilidad de todos los negocios (rol 'agencia').
 -- ⚠️ Igual que arriba: __HASH_BCRYPT__ es placeholder, genera el hash real antes de correr.
 INSERT INTO admin_users (negocio_id, username, password_hash, nombre, rol)
-SELECT n.id, 'agencia@contestaya.com', '__HASH_BCRYPT__', 'Black Sheep Agencia', 'agencia'
+SELECT n.id, 'agencia@contestaya.com', '__HASH_BCRYPT__', 'Codeva Soluciones', 'agencia'
 FROM negocios n WHERE n.slug = 'demo-contestaya'
 ON CONFLICT (username) DO NOTHING;
