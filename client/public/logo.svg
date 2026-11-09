@@ -1,0 +1,21 @@
+<svg width="360" height="90" viewBox="0 0 360 90" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <rect x="0" y="5" width="80" height="80" rx="20" fill="#E63946"/>
+    <path d="M 18 24
+             Q 18 15 27 15
+             L 61 15
+             Q 70 15 70 24
+             L 70 44
+             Q 70 53 61 53
+             L 40 53
+             L 30 63
+             L 32 53
+             L 27 53
+             Q 18 53 18 44
+             Z"
+          fill="#FFFFFF"/>
+    <path d="M 46 21 L 34 38 L 41 38 L 38 48 L 51 32 L 44 32 Z" fill="#E63946"/>
+    <circle cx="59" cy="22" r="3" fill="#E63946"/>
+  </g>
+  <text x="96" y="55" font-family="'Poppins', 'Segoe UI', sans-serif" font-size="34" font-weight="700" fill="#1A1A1A">Contesta<tspan fill="#E63946">Ya</tspan></text>
+</svg>

@@ -1,10 +1,10 @@
-# ContestaYa — motor de bot de WhatsApp (Black Sheep Agencia)
+# ContestaYa — motor de bot de WhatsApp (Codeva Soluciones)
 
 Motor reusable para bots de WhatsApp vía **Chatwoot** (webhook) + **n8n** + **Redis** (buffer de
 mensajes) + **Postgres** (multi-tenant), con un **panel web** para moldear el bot a cualquier
 negocio sin tocar código ni el flujo de n8n.
 
-Copiado del motor validado en `ecosistema-faq-bot` (demo Tacos Memo/Flora/Glow Studio), pero
+Basado en un motor FAQ multi-tenant previo, pero
 con **infraestructura completamente separada**: su propio Postgres, su propia cuenta de Chatwoot
 desde cero, y su propio n8n — nada se conecta a `botdemo` ni a `BLACKBOTRESPOND`. La app de Meta
 para este proyecto es **Zyvora** (Business Verification/Tech Provider en curso), pensada para dar

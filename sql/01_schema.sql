@@ -1,4 +1,4 @@
--- Ecosistema FAQ Moldeable — Black Sheep Agencia
+-- ContestaYa — Codeva Soluciones
 -- Esquema multi-tenant: TODO cuelga de "negocios". Moldear el bot a otro giro
 -- (ej. de taquería a venta de azulejos) = cambiar filas de negocios/faq, no código.
 

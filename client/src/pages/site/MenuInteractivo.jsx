@@ -243,7 +243,7 @@ export default function MenuInteractivo() {
 
       <footer className={`${px}-footer`}>
         <p>{negocio?.nombre || ''} · {negocio?.ciudad || ''}</p>
-        <p className={`${px}-powered`}>Demo del ecosistema de bots — Black Sheep Agencia</p>
+        <p className={`${px}-powered`}>Asistente de WhatsApp con ContestaYa</p>
       </footer>
     </div>
   );

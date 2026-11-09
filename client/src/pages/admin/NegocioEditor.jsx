@@ -93,7 +93,7 @@ export default function NegocioEditor() {
         <div className="field">
           <label>Plantilla del sitio publico</label>
           <select value={form.plantilla || 'generico'} onChange={set('plantilla')}>
-            <option value="generico">Generico (estilo Tacos Memo)</option>
+            <option value="generico">Genérico (ContestaYa)</option>
             <option value="resto-bar">Resto-bar</option>
             <option value="estetica-barberia">Estetica / Barberia</option>
             <option value="flora">Flora (restaurante elegante)</option>

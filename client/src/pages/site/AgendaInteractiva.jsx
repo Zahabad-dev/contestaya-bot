@@ -123,7 +123,7 @@ export default function AgendaInteractiva() {
 
       <footer className="eb-footer">
         <p>{negocio?.nombre || ''} · {negocio?.ciudad || ''}</p>
-        <p className="eb-powered">Demo del ecosistema de bots — Black Sheep Agencia</p>
+        <p className="eb-powered">Asistente de WhatsApp con ContestaYa</p>
       </footer>
     </div>
   );

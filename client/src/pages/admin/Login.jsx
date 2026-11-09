@@ -24,7 +24,7 @@ export default function Login() {
   return (
     <div className="admin admin-login">
       <form onSubmit={onSubmit}>
-        <h1>Panel · Ecosistema FAQ Bot</h1>
+        <h1>ContestaYa · Panel</h1>
         <div className="field">
           <label>Usuario</label>
           <input value={username} onChange={(e) => setUsername(e.target.value)} autoFocus />

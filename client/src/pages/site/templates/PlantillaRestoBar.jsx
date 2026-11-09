@@ -104,7 +104,7 @@ export default function PlantillaRestoBar({ negocio, faq, error }) {
 
       <footer className="rb-footer">
         <p>{negocio?.nombre || 'Resto-Bar Demo'} · {negocio?.ciudad || ''}</p>
-        <p className="rb-powered">Demo del ecosistema de bots — Black Sheep Agencia</p>
+        <p className="rb-powered">Asistente de WhatsApp con ContestaYa</p>
       </footer>
     </div>
   );
